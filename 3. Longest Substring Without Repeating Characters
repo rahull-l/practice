@@ -1,0 +1,10 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        lo=0
+        longest = ''
+        for hi, k in enumerate(s):
+            if k in s[lo:hi]: # check if k, which is s[hi], in the window
+                lo = s[lo:hi].find(k)+1+lo # move lo forward
+            elif len(s[lo:hi+1])>len(longest): # if not, using s[lo:hi+1] to include s[hi]
+                longest = s[lo:hi+1] # update longest
+        return len(longest)     
