@@ -1,0 +1,29 @@
+class Solution {
+    public int candy(int[] ratings) {
+        Map<Integer, Integer> candies = new HashMap<>();
+        int n = ratings.length;
+
+        for (int i = 0; i < n; i++) {
+            candies.put(i, 1);
+        }
+
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                candies.put(i, candies.get(i - 1) + 1);
+            }
+        }
+
+        for (int i = n - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                candies.put(i, Math.max(candies.get(i), candies.get(i + 1) + 1));
+            }
+        }
+
+        int total = 0;
+        for (int val : candies.values()) {
+            total += val;
+        }
+
+        return total;
+    }
+}
