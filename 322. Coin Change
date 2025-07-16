@@ -1,0 +1,29 @@
+class Solution {
+    public int numberofCoins(int i, int target, int[] coins, int[][] dp) {
+        if(i == 0){
+            if(target % coins[0] == 0) return target / coins[0];
+            else return(int)1e8;
+        }
+
+        if(dp[i][target] != -1) return dp[i][target];
+        int notTake = numberofCoins(i-1, target, coins, dp);
+        int take = (int)1e8;
+        if(target >= coins[i]){
+            take = 1+ numberofCoins(i, target - coins[i], coins, dp);
+        }
+        return dp[i][target] = Math.min(take, notTake);
+
+    }
+
+    public int coinChange(int[] coins, int amount){
+        int n = coins.length;
+        int[][]dp = new int[n+1][amount+1];
+        for(int i = 0;
+        i<=n; ++i){
+            Arrays.fill(dp[i], -1);
+        }
+
+        int ans = numberofCoins(n-1, amount, coins, dp);
+        return ans >= 1e8 ? -1: ans;
+    }
+}
