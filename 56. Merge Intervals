@@ -1,0 +1,35 @@
+import java.util.*;
+
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        // Edge case: if the input is empty or has one interval
+        if (intervals.length <= 1) return intervals;
+
+        // Step 1: Sort the intervals by start time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+        List<int[]> merged = new ArrayList<>();
+
+        // Step 2: Merge overlapping intervals
+        int[] current = intervals[0];
+        merged.add(current);
+
+        for (int[] interval : intervals) {
+            int currentEnd = current[1];
+            int nextStart = interval[0];
+            int nextEnd = interval[1];
+
+            if (nextStart <= currentEnd) {
+                // Overlapping intervals, update the end
+                current[1] = Math.max(currentEnd, nextEnd);
+            } else {
+                // No overlap, add to the list
+                current = interval;
+                merged.add(current);
+            }
+        }
+
+        // Step 3: Convert list to 2D array
+        return merged.toArray(new int[merged.size()][]);
+    }
+}
